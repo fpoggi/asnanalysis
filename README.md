@@ -42,8 +42,8 @@ The developed Java application accepts the following options:
       * RF (analysis of the Recruitment Fields)
       * Area (analysis of the scientific Areas)
       * FeatureSel (analysis of the Recruitment Fields using the top 15 indicators)
-      * Experiment1 (experiment \#1)
-      * Experiment2 (experiment \#2)
+      * Experiment1 (experiment #1)
+      * Experiment2 (experiment #2)
 -l <LEVEL>
       specify the academic level of interest (i.e. '1' for Full Professor, '2' for Associate Professor)
 ```
