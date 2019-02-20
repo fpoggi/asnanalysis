@@ -15,20 +15,20 @@ This GitHub repository contains the code of the analyses performed on the 2012 s
 ```
 3. Run the analyses described in Section "Analysis of the Recruitment Fields and Areas"
 ```
-~$ java -jar target/asn-analysis-1.0-jar-with-dependencies.jar -i data/input/dataset-ASN-2012.arff -o output/RFs_Level1.csv -op RF -l 1
-~$ java -jar target/asn-analysis-1.0-jar-with-dependencies.jar -i data/input/dataset-ASN-2012.arff -o output/RFs_Level2.csv -op RF -l 2
-~$ java -jar target/asn-analysis-1.0-jar-with-dependencies.jar -i data/input/dataset-ASN-2012.arff -o output/Areas_Level1.csv -op Area -l 1
-~$ java -jar target/asn-analysis-1.0-jar-with-dependencies.jar -i data/input/dataset-ASN-2012.arff -o output/Areas_Level2.csv -op Area -l 2
+~$ java -jar target/asn-analysis-1.0-jar-with-dependencies.jar -i data/input/dataset-ASN-2012.arff -o data/output/RFs_Level1.csv -op RF -l 1
+~$ java -jar target/asn-analysis-1.0-jar-with-dependencies.jar -i data/input/dataset-ASN-2012.arff -o data/output/RFs_Level2.csv -op RF -l 2
+~$ java -jar target/asn-analysis-1.0-jar-with-dependencies.jar -i data/input/dataset-ASN-2012.arff -o data/output/Areas_Level1.csv -op Area -l 1
+~$ java -jar target/asn-analysis-1.0-jar-with-dependencies.jar -i data/input/dataset-ASN-2012.arff -o data/output/Areas_Level2.csv -op Area -l 2
 ```
 4. Run the analyses described in Section "Analysis of the Quantitative Indicators of Applicants"
 ```
-~$ java -jar target/asn-analysis-1.0-jar-with-dependencies.jar -i data/input/dataset-ASN-2012.arff -o output/FeatureSel_Level1.csv -op FeatureSel -l 1
-~$ java -jar target/asn-analysis-1.0-jar-with-dependencies.jar -i data/input/dataset-ASN-2012.arff -o output/FeatureSel_Level2.csv -op FeatureSel -l 2
+~$ java -jar target/asn-analysis-1.0-jar-with-dependencies.jar -i data/data/input/dataset-ASN-2012.arff -o output/FeatureSel_Level1.csv -op FeatureSel -l 1
+~$ java -jar target/asn-analysis-1.0-jar-with-dependencies.jar -i data/data/input/dataset-ASN-2012.arff -o output/FeatureSel_Level2.csv -op FeatureSel -l 2
 ```
 5. Run the experiments described in Section "Evaluation"
 ```
-~$ java -jar target/asn-analysis-1.0-jar-with-dependencies.jar -i data/input/experiment1 -o output/Experiment1.csv -op Experiment1
-~$ java -jar target/asn-analysis-1.0-jar-with-dependencies.jar -i data/input/experiment2 -o output/Experiment2.csv -op Experiment2
+~$ java -jar target/asn-analysis-1.0-jar-with-dependencies.jar -i data/input/experiment1 -o data/output/Experiment1.csv -op Experiment1
+~$ java -jar target/asn-analysis-1.0-jar-with-dependencies.jar -i data/input/experiment2 -o data/output/Experiment2.csv -op Experiment2
 ```
 ## Help
 The developed Java application accepts the following options:
