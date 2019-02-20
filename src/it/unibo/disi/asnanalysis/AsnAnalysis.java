@@ -153,33 +153,33 @@ public class AsnAnalysis {
 		
 		// other options
 		int seed  = 1; //87452;
-	    int folds = 10;
-	    
-	    // randomize data
-	    Random rand = new Random(seed);
-	    Instances randDataLI = new Instances(dataset);
-	    randDataLI.randomize(rand);
-	    if (randDataLI.classAttribute().isNominal())
-	    	randDataLI.stratify(folds);
-	    
-	    // perform cross-validation
-	    Evaluation eval = new Evaluation(randDataLI);
-	    
-	    for (int n = 0; n < folds; n++) {
-	    	Instances test = randDataLI.testCV(folds, n);
-	    	// the above code is used by the StratifiedRemoveFolds filter, the
-	    	// code below by the Explorer/Experimenter:
-	    	Instances train = randDataLI.trainCV(folds, n, rand);
-	    	
-	    	String optsLogistic = "-R 1.0E-8 -M -1 -num-decimal-places 4";
+		int folds = 10;
+		
+		// randomize data
+		Random rand = new Random(seed);
+		Instances randDataLI = new Instances(dataset);
+		randDataLI.randomize(rand);
+		if (randDataLI.classAttribute().isNominal())
+			randDataLI.stratify(folds);
+		
+		// perform cross-validation
+		Evaluation eval = new Evaluation(randDataLI);
+		
+		for (int n = 0; n < folds; n++) {
+			Instances test = randDataLI.testCV(folds, n);
+			// the above code is used by the StratifiedRemoveFolds filter, the
+			// code below by the Explorer/Experimenter:
+			Instances train = randDataLI.trainCV(folds, n, rand);
+			
+			String optsLogistic = "-R 1.0E-8 -M -1 -num-decimal-places 4";
 			Logistic log = new Logistic();
 			log.setOptions(Utils.splitOptions(optsLogistic));
 			
 			log.buildClassifier(train);
 			eval.evaluateModel(log, test);
-	    }
-	    
-        return eval;
+		}
+		
+		return eval;
 	}
 	
 	
@@ -188,33 +188,33 @@ public class AsnAnalysis {
 		
 		// other options
 		int seed  = 1; //87452;
-	    int folds = 10;
-	    
-	    // randomize data
-	    Random rand = new Random(seed);
-	    Instances randDataLI = new Instances(dataset);
-	    randDataLI.randomize(rand);
-	    if (randDataLI.classAttribute().isNominal())
-	    	randDataLI.stratify(folds);
-	    
-	    // perform cross-validation
-	    Evaluation eval = new Evaluation(randDataLI);
-	    
-	    for (int n = 0; n < folds; n++) {
-	    	Instances test = randDataLI.testCV(folds, n);
-	    	// the above code is used by the StratifiedRemoveFolds filter, the
-	    	// code below by the Explorer/Experimenter:
-	    	Instances train = randDataLI.trainCV(folds, n, rand);
-	    	
-	    	String optsSVM = "-C 1.0 -L 0.001 -P 1.0E-12 -N 0 -V -1 -W 1 -K \"weka.classifiers.functions.supportVector.PolyKernel -E 1.0 -C 250007\" -calibrator \"weka.classifiers.functions.Logistic -R 1.0E-8 -M -1 -num-decimal-places 4\""; // -x 10 -v -o -c";
+		int folds = 10;
+		
+		// randomize data
+		Random rand = new Random(seed);
+		Instances randDataLI = new Instances(dataset);
+		randDataLI.randomize(rand);
+		if (randDataLI.classAttribute().isNominal())
+			randDataLI.stratify(folds);
+		
+		// perform cross-validation
+		Evaluation eval = new Evaluation(randDataLI);
+		
+		for (int n = 0; n < folds; n++) {
+			Instances test = randDataLI.testCV(folds, n);
+			// the above code is used by the StratifiedRemoveFolds filter, the
+			// code below by the Explorer/Experimenter:
+			Instances train = randDataLI.trainCV(folds, n, rand);
+			
+			String optsSVM = "-C 1.0 -L 0.001 -P 1.0E-12 -N 0 -V -1 -W 1 -K \"weka.classifiers.functions.supportVector.PolyKernel -E 1.0 -C 250007\" -calibrator \"weka.classifiers.functions.Logistic -R 1.0E-8 -M -1 -num-decimal-places 4\""; // -x 10 -v -o -c";
 			SMO svm = new SMO();
 			svm.setOptions(Utils.splitOptions(optsSVM));
 			
 			svm.buildClassifier(train);
 			eval.evaluateModel(svm, test);
-	    }
-	    
-	    return eval;
+		}
+		
+		return eval;
 	}
 	
 	
@@ -225,9 +225,9 @@ public class AsnAnalysis {
 		MyRecordList rl = new MyRecordList();
 		rl.setHeader("Recruitment Field", "Precision", "Recall", "F-Measure");
 		
-	    Enumeration<Object> enumRFs = dataSet.attribute(1).enumerateValues();
+		Enumeration<Object> enumRFs = dataSet.attribute(1).enumerateValues();
 		
-	    int indexRF = 1;
+		int indexRF = 1;
 		while (enumRFs.hasMoreElements()) {
 			String rf = (String)enumRFs.nextElement();
 			
@@ -240,7 +240,7 @@ public class AsnAnalysis {
 			filterRWV.setOptions(Utils.splitOptions(optsFilterSD));
 			filterRWV.setInputFormat(dataSet);
 			Instances dataSetFiltered = Filter.useFilter(dataSet, filterRWV);
-		    
+			
 			/**
 			 * Filtering Levels
 			 */
@@ -257,21 +257,21 @@ public class AsnAnalysis {
 			filterRm.setOptions(Utils.splitOptions(optsFilterRm));
 			filterRm.setInputFormat(dataSet);
 			Instances dataSetFilteredLevelRm = Filter.useFilter(dataSetFilteredLevel, filterRm);
-		    
+			
 			/**
 			 * Classification with SVM
 			 **/
 			Evaluation eval = doSvmClassification(dataSetFilteredLevelRm, "Abilitato");
 			
-		    String precision = roundDouble(eval.precision(0));
-            String recall = roundDouble(eval.recall(0));
-            String fMeasure = roundDouble(eval.fMeasure(0));
-		    //csvPrinter.printRecord(rf, precision, recall, fMeasure);
-		    //records.add(new String[] {rf, precision, recall, fMeasure});
-            rl.addRecord(rf, precision, recall, fMeasure);
-    	    
-		    LOG.info(rf + " - Precision: " + precision + " - Recall: " + recall + " - F-Measure: " + fMeasure);
-		    indexRF += 1;
+			String precision = roundDouble(eval.precision(0));
+			String recall = roundDouble(eval.recall(0));
+			String fMeasure = roundDouble(eval.fMeasure(0));
+			//csvPrinter.printRecord(rf, precision, recall, fMeasure);
+			//records.add(new String[] {rf, precision, recall, fMeasure});
+			rl.addRecord(rf, precision, recall, fMeasure);
+			
+			LOG.info(rf + " - Precision: " + precision + " - Recall: " + recall + " - F-Measure: " + fMeasure);
+			indexRF += 1;
 		}
 
 		rl.sortByCol(3, MyRecordList.SortDESC);
@@ -286,29 +286,29 @@ public class AsnAnalysis {
 		MyRecordList rl = new MyRecordList();
 		rl.setHeader("Area", "Precision", "Recall", "F-Measure");
 		
-	    Enumeration<Object> enumRFs = dataSet.attribute(1).enumerateValues();
+		Enumeration<Object> enumRFs = dataSet.attribute(1).enumerateValues();
 		
-	    // Organize RFs in Areas
-	    HashMap<String, ArrayList<String>> areaMapIndices = new HashMap<String, ArrayList<String>>();
-	    
-	    String[] arrAreas = {"01","02","03","04","05","06","07","08","09","10","11","12","13","14"};
-	    String[] elevenBibl = {"11/E1", "11/E2", "11/E3", "11/E4"};
-	    String[] eightNbibl = {"08/C1", "08/D1", "08/E1", "08/E2", "08/F1"};
-	    for (String area : arrAreas) {
-	    	ArrayList<String> rfInArea = new ArrayList<String>();
-	    	areaMapIndices.put(area, rfInArea);
-	    	if (area.equals("11")) {
-	    		ArrayList<String> rf11EInArea = new ArrayList<String>();
-		    	areaMapIndices.put("11/E", rf11EInArea);
-	    	}
-	    	if (area.equals("08")) {
-	    		ArrayList<String> rf08NBInArea = new ArrayList<String>();
-		    	areaMapIndices.put("08-NB", rf08NBInArea);
-	    	}
-	    }
-	    
-	    int indexRF = 1;
-	    while (enumRFs.hasMoreElements()) {
+		// Organize RFs in Areas
+		HashMap<String, ArrayList<String>> areaMapIndices = new HashMap<String, ArrayList<String>>();
+		
+		String[] arrAreas = {"01","02","03","04","05","06","07","08","09","10","11","12","13","14"};
+		String[] elevenBibl = {"11/E1", "11/E2", "11/E3", "11/E4"};
+		String[] eightNbibl = {"08/C1", "08/D1", "08/E1", "08/E2", "08/F1"};
+		for (String area : arrAreas) {
+			ArrayList<String> rfInArea = new ArrayList<String>();
+			areaMapIndices.put(area, rfInArea);
+			if (area.equals("11")) {
+				ArrayList<String> rf11EInArea = new ArrayList<String>();
+				areaMapIndices.put("11/E", rf11EInArea);
+			}
+			if (area.equals("08")) {
+				ArrayList<String> rf08NBInArea = new ArrayList<String>();
+				areaMapIndices.put("08-NB", rf08NBInArea);
+			}
+		}
+		
+		int indexRF = 1;
+		while (enumRFs.hasMoreElements()) {
 			String rf = (String)enumRFs.nextElement();
 			
 			if (Arrays.asList(elevenBibl).contains(rf)) {
@@ -330,7 +330,7 @@ public class AsnAnalysis {
 			rfList.add(Integer.toString(indexRF));
 			
 			indexRF += 1;
-	    }
+		}
 		
 		for (String area : areaMapIndices.keySet()) {
 			ArrayList<String> rfList = areaMapIndices.get(area);
@@ -345,7 +345,7 @@ public class AsnAnalysis {
 			filterRWV.setOptions(Utils.splitOptions(optsFilterSD));
 			filterRWV.setInputFormat(dataSet);
 			Instances dataSetFiltered = Filter.useFilter(dataSet, filterRWV);
-		    
+			
 			/**
 			 * Filtering Levels
 			 */
@@ -362,17 +362,17 @@ public class AsnAnalysis {
 			filterRm.setOptions(Utils.splitOptions(optsFilterRm));
 			filterRm.setInputFormat(dataSet);
 			Instances dataSetFilteredLevelRm = Filter.useFilter(dataSetFilteredLevel, filterRm);
-		    
-		    /**
+			
+			/**
 			 * Classification with SVM
 			 **/
 			Evaluation eval = doSvmClassification(dataSetFilteredLevelRm, "Abilitato");
 			
 			String precision = roundDouble(eval.precision(0));
-            String recall = roundDouble(eval.recall(0));
-            String fMeasure = roundDouble(eval.fMeasure(0));
-		    rl.addRecord(area, precision, recall, fMeasure);
-		    LOG.info(area + " - Precision: " + precision + " - Recall: " + recall + " - F-Measure: " + fMeasure);
+			String recall = roundDouble(eval.recall(0));
+			String fMeasure = roundDouble(eval.fMeasure(0));
+			rl.addRecord(area, precision, recall, fMeasure);
+			LOG.info(area + " - Precision: " + precision + " - Recall: " + recall + " - F-Measure: " + fMeasure);
 		}
 		
 		rl.sortByCol(3, MyRecordList.SortDESC);
@@ -387,12 +387,12 @@ public class AsnAnalysis {
 		MyRecordList rl = new MyRecordList();
 		rl.setHeader("Recruitment Field", "Precision", "Recall", "F-Measure");
 
-	    LOG.info("Selection of the top 15 features...");
+		LOG.info("Selection of the top 15 features...");
 		Enumeration<Object> enumRFs = dataSet.attribute(1).enumerateValues();
 		
-	    int indexRF = 1;
+		int indexRF = 1;
 		HashMap<Integer, Integer> featureSelCounter = new HashMap<Integer, Integer>();
-	    HashMap<String, Instances> datasetMap = new HashMap<String, Instances>();
+		HashMap<String, Instances> datasetMap = new HashMap<String, Instances>();
 		while (enumRFs.hasMoreElements()) {
 			String rf = (String)enumRFs.nextElement();
 			
@@ -405,7 +405,7 @@ public class AsnAnalysis {
 			filterRWV.setOptions(Utils.splitOptions(optsFilterSD));
 			filterRWV.setInputFormat(dataSet);
 			Instances dataSetFiltered = Filter.useFilter(dataSet, filterRWV);
-		    
+			
 			/**
 			 * Filtering Levels
 			 */
@@ -422,9 +422,9 @@ public class AsnAnalysis {
 			filterRm.setOptions(Utils.splitOptions(optsFilterRm));
 			filterRm.setInputFormat(dataSet);
 			Instances dataSetFilteredLevelRm = Filter.useFilter(dataSetFilteredLevel, filterRm);
-		    datasetMap.put(rf, dataSetFilteredLevelRm);
-		    
-		    /**
+			datasetMap.put(rf, dataSetFilteredLevelRm);
+			
+			/**
 			 * CFS
 			 */
 			dataSetFilteredLevelRm.setClass(dataSetFilteredLevelRm.attribute("Abilitato"));
@@ -433,61 +433,61 @@ public class AsnAnalysis {
 			//weka.attributeSelection.AttributeSelection filter = new weka.attributeSelection.AttributeSelection();
 			
 			CfsSubsetEval eval = new CfsSubsetEval();
-		    eval.setOptions(Utils.splitOptions("-P 1 -E 1 -c last"));
-		    filter.setEvaluator(eval);
-		    
-		    BestFirst search = new BestFirst();
+			eval.setOptions(Utils.splitOptions("-P 1 -E 1 -c last"));
+			filter.setEvaluator(eval);
+			
+			BestFirst search = new BestFirst();
 			search.setOptions(Utils.splitOptions("-D 1 -N 5"));
 			filter.setSearch(search);
 			
 			filter.setInputFormat(dataSetFilteredLevelRm);
 			
 			Instances newData = Filter.useFilter(dataSetFilteredLevelRm, filter);
-		    
-		    ArrayList<Integer> arrSelected = new ArrayList<Integer>();
-	        for (int i=0; i<newData.numAttributes() -1; i++) {
-	        	String selAttrName = newData.attribute(i).name();
-	        	Enumeration<Attribute> attrs = dataSetFilteredLevelRm.enumerateAttributes();
-	        	int j = 0;
-	        	while (attrs.hasMoreElements()) {
-	        		Attribute currAttr = attrs.nextElement();
-	        		if (currAttr.name().equals(selAttrName)) {
-	        			arrSelected.add(j);
-	        			int count = featureSelCounter.containsKey(j) ? featureSelCounter.get(j) : 0;
-	        			featureSelCounter.put(j, count + 1);
-	        		}
-	        		j++;
-	        	}
-	        }
-	        indexRF += 1;
+			
+			ArrayList<Integer> arrSelected = new ArrayList<Integer>();
+			for (int i=0; i<newData.numAttributes() -1; i++) {
+				String selAttrName = newData.attribute(i).name();
+				Enumeration<Attribute> attrs = dataSetFilteredLevelRm.enumerateAttributes();
+				int j = 0;
+				while (attrs.hasMoreElements()) {
+					Attribute currAttr = attrs.nextElement();
+					if (currAttr.name().equals(selAttrName)) {
+						arrSelected.add(j);
+						int count = featureSelCounter.containsKey(j) ? featureSelCounter.get(j) : 0;
+						featureSelCounter.put(j, count + 1);
+					}
+					j++;
+				}
+			}
+			indexRF += 1;
 		}
 
-	    ArrayList<Integer> temp = new ArrayList<Integer>();
-	    for (Integer key : featureSelCounter.keySet() ) {
-	    	temp.add(featureSelCounter.get(key));
-	    }
-	    Collections.sort(temp);
-	    Collections.reverse(temp);
-	    
-	    LinkedHashSet<Integer> top15Counter = new LinkedHashSet<Integer>(temp.stream().limit(15).collect(Collectors.toList()));
-	    
-	    LinkedHashSet<Integer> top15Index = new LinkedHashSet<Integer>();
-	    LOG.info("Selected Features:");
-	    int numFound = 0;
-	    for (int currVal : top15Counter) {
-	    	for (Integer attrInd : featureSelCounter.keySet()) {
-	    		if (featureSelCounter.get(attrInd) == currVal && numFound < 15) {
-	    			top15Index.add(attrInd + 1);
-	    			LOG.info("\t* " + datasetMap.get("06/M1").attribute(attrInd).name() + " (#" + (attrInd+2) + " - selected " + featureSelCounter.get(attrInd) + " times)");
-	    			numFound++;
-	    		}
-	    	}
-	    }
-	    
-	    for (String ssd : datasetMap.keySet()) {
-	       	Instances ds = datasetMap.get(ssd);
-	    	
-	    	/**
+		ArrayList<Integer> temp = new ArrayList<Integer>();
+		for (Integer key : featureSelCounter.keySet() ) {
+			temp.add(featureSelCounter.get(key));
+		}
+		Collections.sort(temp);
+		Collections.reverse(temp);
+		
+		LinkedHashSet<Integer> top15Counter = new LinkedHashSet<Integer>(temp.stream().limit(15).collect(Collectors.toList()));
+		
+		LinkedHashSet<Integer> top15Index = new LinkedHashSet<Integer>();
+		LOG.info("Selected Features:");
+		int numFound = 0;
+		for (int currVal : top15Counter) {
+			for (Integer attrInd : featureSelCounter.keySet()) {
+				if (featureSelCounter.get(attrInd) == currVal && numFound < 15) {
+					top15Index.add(attrInd + 1);
+					LOG.info("\t* " + datasetMap.get("06/M1").attribute(attrInd).name() + " (#" + (attrInd+2) + " - selected " + featureSelCounter.get(attrInd) + " times)");
+					numFound++;
+				}
+			}
+		}
+		
+		for (String ssd : datasetMap.keySet()) {
+		   	Instances ds = datasetMap.get(ssd);
+			
+			/**
 			 * Removing Attributes
 			 */
 			Filter filterRm = new Remove();
@@ -495,19 +495,19 @@ public class AsnAnalysis {
 			filterRm.setOptions(Utils.splitOptions("-V -R " + optsFilterRm + ",last"));
 			filterRm.setInputFormat(ds);
 			Instances dsTop15 = Filter.useFilter(ds, filterRm);
-		    
-	    	/**
-	    	 * Classification with SVM
-	    	 */
-	    	Evaluation eval = doSvmClassification(dsTop15, "Abilitato");
-	    	String precision = roundDouble(eval.precision(0));
-	        String recall = roundDouble(eval.recall(0));
-	        String fMeasure = roundDouble(eval.fMeasure(0));
-	        rl.addRecord(ssd, precision, recall, fMeasure);
-	        LOG.info(ssd + " - Precision: " + precision + " - Recall: " + recall + " - F-Measure: " + fMeasure);
-	    	
-	    }
-	    rl.sortByCol(3, MyRecordList.SortDESC);
+			
+			/**
+			 * Classification with SVM
+			 */
+			Evaluation eval = doSvmClassification(dsTop15, "Abilitato");
+			String precision = roundDouble(eval.precision(0));
+			String recall = roundDouble(eval.recall(0));
+			String fMeasure = roundDouble(eval.fMeasure(0));
+			rl.addRecord(ssd, precision, recall, fMeasure);
+			LOG.info(ssd + " - Precision: " + precision + " - Recall: " + recall + " - F-Measure: " + fMeasure);
+			
+		}
+		rl.sortByCol(3, MyRecordList.SortDESC);
 		rl.saveToFile(csvOutput);
 	}
 
