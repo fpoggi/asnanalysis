@@ -1,0 +1,4 @@
+lib/*sources.jar
+lib/*javadoc.jar
+data/output/*
+target
