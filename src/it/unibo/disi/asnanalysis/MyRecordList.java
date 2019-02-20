@@ -41,7 +41,6 @@ public class MyRecordList {
 	    CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT
 	    		.withQuoteMode(QuoteMode.MINIMAL)
                 .withHeader(header));
-	    csvPrinter.printRecord(header);
 	    for (String[] record : records) {
 	    	csvPrinter.printRecord(record);
 	    }
