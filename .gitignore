@@ -1,7 +1,7 @@
 lib/*sources.jar
 lib/*javadoc.jar
 target
-src/it/unibo/disi/analysis/mylib/*
+src/it/unibo/disi/asnanalysis/mylib/*
 .classpath
 .project
 org.eclipse.*
