@@ -539,7 +539,6 @@ public class AsnAnalysis {
 		/*
 		 * RF: 01/B1 (Informatics)
 		 */
-		System.out.println(input + File.separator + fJ1_01B1);
 		DataSource dataSource = new DataSource(input + File.separator + fJ1_01B1);
 		Instances dataSet = dataSource.getDataSet();
 		dataSet.setClass(dataSet.attribute("Abilitato"));
