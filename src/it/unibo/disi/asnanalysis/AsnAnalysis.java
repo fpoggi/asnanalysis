@@ -375,7 +375,7 @@ public class AsnAnalysis {
 			LOG.info(area + " - Precision: " + precision + " - Recall: " + recall + " - F-Measure: " + fMeasure);
 		}
 		
-		rl.sortByCol(0, MyRecordList.SortDESC);
+		rl.sortByCol(0, MyRecordList.SortASC);
 		rl.saveToFile(csvOutput);
 	}
 
