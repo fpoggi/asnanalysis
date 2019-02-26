@@ -631,7 +631,7 @@ public class AsnAnalysis {
 		dataSet = dataSource.getDataSet();
 		dataSet.setClass(dataSet.attribute("Abilitato"));
 		eval = doLogisticClassification(dataSet, "Abilitato");
-		rl.addRecord();
+		rl.addRecord("13", "JLOG-1", roundDouble(eval.precision(0)), roundDouble(eval.recall(0)), roundDouble(eval.fMeasure(0)));
 		LOG.info("13 (JLOG-1): " + roundDouble(eval.precision(0)) + " - " + roundDouble(eval.recall(0)) + " - " + roundDouble(eval.fMeasure(0)));
 		
 		dataSource = new DataSource(input + File.separator + fJ8_13);

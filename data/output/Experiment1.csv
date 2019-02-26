@@ -8,6 +8,6 @@ Recruitment Field/Area,Approach,Precision,Recall,F-Measure
 01,JLOG-1,0.638,0.782,0.703
 01,JLOG-8,0.677,0.719,0.697
 01,SVM,0.692,0.753,0.721
-
+13,JLOG-1,0.633,0.658,0.645
 13,JLOG-8,0.676,0.705,0.690
 13,SVM,0.685,0.736,0.710
