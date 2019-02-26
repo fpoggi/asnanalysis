@@ -249,29 +249,39 @@ public class AsnAnalysis {
 			filterRWV.setInputFormat(dataSetFiltered);
 			Instances dataSetFilteredLevel = Filter.useFilter(dataSetFiltered, filterRWV);
 			
-			/**
+			// SAVE .ARFF
+	     	//try (PrintWriter out = new PrintWriter("data/output/RFs/" + rf.replace("/", "-") + "_L" + level + ".arff")) {
+	     	//	out.println(dataSetFilteredLevel.toString());
+	     	//}
+
+	     	/**
 			 * Removing Attributes
 			 */
 			Filter filterRm = new Remove();
-			String optsFilterRm = "-R 2";
+			String optsFilterRm = "-R 2,3,4";
 			filterRm.setOptions(Utils.splitOptions(optsFilterRm));
 			filterRm.setInputFormat(dataSet);
 			Instances dataSetFilteredLevelRm = Filter.useFilter(dataSetFilteredLevel, filterRm);
 			
+			// SAVE .ARFF
+	     	//try (PrintWriter out = new PrintWriter("data/output/RFs/" + rf.replace("/", "-") + "_L" + level + "_removed.arff")) {
+	     	//	out.println(dataSetFilteredLevelRm.toString());
+	     	//}
+	     	
 			/**
 			 * Classification with SVM
 			 **/
-			Evaluation eval = doSvmClassification(dataSetFilteredLevelRm, "Abilitato");
+			
+	     	Evaluation eval = doSvmClassification(dataSetFilteredLevelRm, "Abilitato");
 			
 			String precision = roundDouble(eval.precision(0));
 			String recall = roundDouble(eval.recall(0));
 			String fMeasure = roundDouble(eval.fMeasure(0));
-			//csvPrinter.printRecord(rf, precision, recall, fMeasure);
-			//records.add(new String[] {rf, precision, recall, fMeasure});
 			rl.addRecord(rf, precision, recall, fMeasure);
 			
 			LOG.info(rf + " - Precision: " + precision + " - Recall: " + recall + " - F-Measure: " + fMeasure);
 			indexRF += 1;
+			//System.exit(0);
 		}
 
 		rl.sortByCol(3, MyRecordList.SortDESC);
@@ -354,15 +364,25 @@ public class AsnAnalysis {
 			filterRWV.setInputFormat(dataSetFiltered);
 			Instances dataSetFilteredLevel = Filter.useFilter(dataSetFiltered, filterRWV);
 			
+			// SAVE .ARFF
+	     	//try (PrintWriter out = new PrintWriter("data/output/Areas/" + area.replace("/", "-") + "_L" + level + ".arff")) {
+	     	//	out.println(dataSetFilteredLevel.toString());
+	     	//}
+	     	
 			/**
 			 * Removing Attributes
 			 */
 			Filter filterRm = new Remove();
-			String optsFilterRm = "-R 2";
+			String optsFilterRm = "-R 2,3,4";
 			filterRm.setOptions(Utils.splitOptions(optsFilterRm));
 			filterRm.setInputFormat(dataSet);
 			Instances dataSetFilteredLevelRm = Filter.useFilter(dataSetFilteredLevel, filterRm);
 			
+			// SAVE .ARFF
+	     	//try (PrintWriter out = new PrintWriter("data/output/Areas/" + area.replace("/", "-") + "_L" + level + "_removed.arff")) {
+	     	//	out.println(dataSetFilteredLevelRm.toString());
+	     	//}
+	     	
 			/**
 			 * Classification with SVM
 			 **/
@@ -373,6 +393,7 @@ public class AsnAnalysis {
 			String fMeasure = roundDouble(eval.fMeasure(0));
 			rl.addRecord(area, precision, recall, fMeasure);
 			LOG.info(area + " - Precision: " + precision + " - Recall: " + recall + " - F-Measure: " + fMeasure);
+			
 		}
 		
 		rl.sortByCol(0, MyRecordList.SortASC);
@@ -553,7 +574,8 @@ public class AsnAnalysis {
 		eval = doSvmClassification(dataSet, "Abilitato");
 		rl.addRecord("01/B1", "SVM", roundDouble(eval.precision(0)), roundDouble(eval.recall(0)), roundDouble(eval.fMeasure(0)));
 		LOG.info("01/B1 (SVM): " + roundDouble(eval.precision(0)) + " - " + roundDouble(eval.recall(0)) + " - " + roundDouble(eval.fMeasure(0)));
-
+		
+				
 		/*
 		 * RF: 13/A1 (Economics)
 		 */
