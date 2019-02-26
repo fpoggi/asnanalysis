@@ -1,6 +1,6 @@
 lib/*sources.jar
 lib/*javadoc.jar
-target
+target/*/*
 src/it/unibo/disi/asnanalysis/mylib/*
 .classpath
 .project
